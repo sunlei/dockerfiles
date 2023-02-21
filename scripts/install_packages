@@ -1,0 +1,73 @@
+#!/bin/sh
+
+# Inspired by: https://github.com/bitnami/minideb/blob/master/mkimage
+
+set -e
+set -u
+
+if [ -f /etc/os-release ]; then
+    # freedesktop.org and systemd
+    . /etc/os-release
+    OS=$NAME
+    VER=$VERSION_ID
+elif type lsb_release >/dev/null 2>&1; then
+    # linuxbase.org
+    OS=$(lsb_release -si)
+    VER=$(lsb_release -sr)
+elif [ -f /etc/lsb-release ]; then
+    # For some versions of Debian/Ubuntu without lsb_release command
+    . /etc/lsb-release
+    OS=$DISTRIB_ID
+    VER=$DISTRIB_RELEASE
+elif [ -f /etc/debian_version ]; then
+    # Older Debian/Ubuntu/etc.
+    OS=Debian
+    VER=$(cat /etc/debian_version)
+# elif [ -f /etc/SuSe-release ]; then
+#     # Older SuSE/etc.
+#     ...
+# elif [ -f /etc/redhat-release ]; then
+#     # Older Red Hat, CentOS, etc.
+#     ...
+else
+    # Fall back to uname, e.g. "Linux <version>", also works for BSD, etc.
+    OS=$(uname -s)
+    VER=$(uname -r)
+fi
+
+export DEBIAN_FRONTEND=noninteractive
+
+n=0
+max=2
+until [ $n -gt $max ]; do
+    set +e
+    if [ "$OS" = "Debian" ] || [ "$OS" = "Ubuntu" ]; then
+        (
+            apt-get update -qq && apt-get install -y --no-install-recommends "$@"
+        )
+    elif [ "$OS" = "Alpine" ]; then
+        (
+            apk --update-cache --no-cache add "$@"
+        )
+    fi
+    CODE=$?
+    set -e
+    if [ $CODE -eq 0 ]; then
+        break
+    fi
+    if [ $n -eq $max ]; then
+        exit $CODE
+    fi
+    echo "apt failed, retrying"
+    n=$((n + 1))
+done
+
+# rm -r /var/lib/apt/lists /var/cache/apt/archives
+rm -rf \
+    "$HOME/.cache" \
+    /var/cache/* \
+    /tmp/* \
+    /var/tmp/* \
+    /var/lib/apt/lists/* \
+    /var/lib/apt/* \
+    /var/lib/cache/*
