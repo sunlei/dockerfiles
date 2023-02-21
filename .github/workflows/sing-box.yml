@@ -1,5 +1,5 @@
 name: sunlei/sing-box
-run-name: ${{ github.actor }} is building docker images 🚀
+run-name: 🚀 Building docker image ${{github.workflow }} by @${{ github.actor }}
 
 on:
   schedule:
