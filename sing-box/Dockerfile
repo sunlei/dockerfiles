@@ -1,6 +1,8 @@
 # syntax=docker/dockerfile:1
 FROM golang:1 as builder
 
+ARG LATEST_VERSION
+
 ENV CGO_ENABLED=0
 
 WORKDIR /go/src/github.com/sagernet/sing-box
@@ -9,7 +11,7 @@ RUN <<EOF
     apt-get update -qq
     apt-get install -y --no-install-recommends jq git
 
-    LATEST_VERSION=$(curl -sfL "https://api.github.com/repos/SagerNet/sing-box/releases" | jq -r 'first | .tag_name')
+    # LATEST_VERSION=$(curl -sfL "https://api.github.com/repos/SagerNet/sing-box/releases" | jq -r 'first | .tag_name')
     git clone --depth=1 -b "${LATEST_VERSION}" https://github.com/SagerNet/sing-box.git /go/src/github.com/sagernet/sing-box
 
     export COMMIT=$(git rev-parse --short HEAD)
