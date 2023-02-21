@@ -23,9 +23,9 @@ elif [ -f /etc/debian_version ]; then
     # Older Debian/Ubuntu/etc.
     OS_NAME=Debian
     OS_VERSION=$(cat /etc/debian_version)
-elif [ -f /etc/alpine-release ]; then
-    OS_NAME=Alpine
-    OS_VERSION=$(cat /etc/alpine-release)
+# elif [ -f /etc/alpine-release ]; then
+#     OS_NAME=Alpine
+#     OS_VERSION=$(cat /etc/alpine-release)
 # elif [ -f /etc/SuSe-release ]; then
 #     # Older SuSE/etc.
 #     ...
@@ -48,7 +48,7 @@ until [ $n -gt $max ]; do
         (
             apt-get update -qq && apt-get install -y --no-install-recommends "$@"
         )
-    elif [ "$OS_NAME" = "Alpine" ]; then
+    elif [ "$OS_NAME" = "Alpine Linux" ]; then
         (
             apk --update-cache --no-cache add "$@"
         )
