@@ -65,12 +65,4 @@ until [ $n -gt $max ]; do
     n=$((n + 1))
 done
 
-# rm -r /var/lib/apt/lists /var/cache/apt/archives
-rm -rf \
-    "$HOME/.cache" \
-    /var/cache/* \
-    /tmp/* \
-    /var/tmp/* \
-    /var/lib/apt/lists/* \
-    /var/lib/apt/* \
-    /var/lib/cache/*
+clear_cache

@@ -1,0 +1,14 @@
+#!/bin/sh
+
+set -e
+set -u
+
+# rm -r /var/lib/apt/lists /var/cache/apt/archives
+rm -rf \
+    "$HOME/.cache" \
+    /var/cache/* \
+    /tmp/* \
+    /var/tmp/* \
+    /var/lib/apt/lists/* \
+    /var/lib/apt/* \
+    /var/lib/cache/*
