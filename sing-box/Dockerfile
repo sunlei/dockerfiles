@@ -35,6 +35,10 @@ EOF
 
 # --------------------------------------------------
 
+FROM busybox:1 AS busybox
+
+# --------------------------------------------------
+
 FROM gcr.io/distroless/static-debian11:latest
 
 LABEL maintainer="Sunlei <guizaicn@gmail.com>"
@@ -45,6 +49,7 @@ LABEL org.opencontainers.image.authors="Sunlei <guizaicn@gmail.com>"
 LABEL org.opencontainers.image.source="https://github.com/sunlei/dockerfiles"
 LABEL org.opencontainers.image.description="Dockerfiles I am using"
 
+COPY --from=busybox /bin/wget /usr/bin/wget
 COPY --from=builder /go/bin/sing-box /usr/local/bin/sing-box
 
 ENTRYPOINT ["sing-box"]
