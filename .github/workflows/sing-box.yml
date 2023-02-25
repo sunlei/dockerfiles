@@ -64,7 +64,7 @@ jobs:
 
           echo "LATEST_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
 
-      - name: Build and push Docker image
+      - name: Build and push Docker image | ${{ env.LATEST_VERSION }}
         uses: docker/build-push-action@v4
         with:
           context: ./${{ github.job }}
