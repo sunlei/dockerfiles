@@ -4,24 +4,34 @@ FROM golang:1 as builder
 ARG LATEST_VERSION
 
 ENV CGO_ENABLED=0
+ENV BUILD_TAGS=with_acme,with_v2ray_api
 
-WORKDIR /go/src/github.com/sagernet/sing-box
-
+# or: sing-box@latest
 RUN <<EOF
-    apt-get update -qq
-    apt-get install -y --no-install-recommends jq git
-
-    # LATEST_VERSION=$(curl -sfL "https://api.github.com/repos/SagerNet/sing-box/releases" | jq -r 'first | .tag_name')
-    git clone --depth=1 -b "${LATEST_VERSION}" https://github.com/SagerNet/sing-box.git /go/src/github.com/sagernet/sing-box
-
-    export COMMIT=$(git rev-parse --short HEAD)
-
-    go build -v -trimpath \
-        -tags with_acme,with_v2ray_api \
-        -o /go/bin/sing-box \
+    go install \
+        -v \
+        -trimpath \
+        -tags ${BUILD_TAGS} \
         -ldflags "-s -w -buildid=" \
-        ./cmd/sing-box
+    github.com/sagernet/sing-box/cmd/sing-box@dev-next
 EOF
+
+# WORKDIR /go/src/github.com/sagernet/sing-box
+# RUN <<EOF
+#     apt-get update -qq
+#     apt-get install -y --no-install-recommends jq git
+
+#     # LATEST_VERSION=$(curl -sfL "https://api.github.com/repos/SagerNet/sing-box/releases" | jq -r 'first | .tag_name')
+#     git clone --depth=1 -b "${LATEST_VERSION}" https://github.com/SagerNet/sing-box.git /go/src/github.com/sagernet/sing-box
+
+#     export COMMIT=$(git rev-parse --short HEAD)
+
+#     go build -v -trimpath \
+#         -tags ${BUILD_TAGS} \
+#         -o /go/bin/sing-box \
+#         -ldflags "-s -w -buildid=" \
+#         ./cmd/sing-box
+# EOF
 
 # --------------------------------------------------
 
