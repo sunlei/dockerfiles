@@ -38,6 +38,7 @@ else
     OS_VERSION=$(uname -r)
 fi
 
+OS_NAME=$(echo "$OS_NAME" | cut -d ' ' -f 1)
 export DEBIAN_FRONTEND=noninteractive
 
 n=0
