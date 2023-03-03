@@ -8,6 +8,7 @@ ENV BUILD_TAGS=with_acme,with_v2ray_api
 
 # or: sing-box@latest
 RUN <<EOF
+    set -ex
     go install \
         -v \
         -trimpath \
@@ -18,6 +19,7 @@ EOF
 
 # WORKDIR /go/src/github.com/sagernet/sing-box
 # RUN <<EOF
+#     set -ex
 #     apt-get update -qq
 #     apt-get install -y --no-install-recommends jq git
 
