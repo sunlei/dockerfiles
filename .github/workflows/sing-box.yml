@@ -58,9 +58,20 @@ jobs:
       #     flavor: |
       #       latest=true
 
+      # https://stackoverflow.com/a/75770668
+      # LATEST_VERSION=$(curl -sfL "https://api.github.com/repos/SagerNet/sing-box/releases" | jq -r 'first(.[] | select(.tag_name | contains("beta"))) | .tag_name')
       - name: Get latest version
         run: |
-          LATEST_VERSION=$(curl -sfL "https://api.github.com/repos/SagerNet/sing-box/releases" | jq -r 'first(.[] | select(.tag_name | contains("beta"))) | .tag_name')
+          JQ_SEMVER_CMP='
+          def opt(f):
+              . as $in | try f catch $in;
+          def semver_cmp:
+              sub("\\+.*$"; "")
+            | capture("^(?<v>[^-]+)(?:-(?<p>.*))?$") | [.v, .p // empty]
+            | map(split(".") | map(opt(tonumber)))
+            | .[1] |= (. // {});'
+
+          LATEST_VERSION=$(curl -sfL "https://api.github.com/repos/SagerNet/sing-box/releases" | jq "$jq_semver_cmp"'sort_by(.tag_name|semver_cmp) | last | .tag_name')
 
           echo "LATEST_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
 
