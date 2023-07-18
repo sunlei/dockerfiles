@@ -6,14 +6,11 @@ ENV BUILD_TAGS=with_v2ray_api,with_gvisor,with_quic,with_dhcp,with_wireguard,wit
 # or: sing-box@latest
 RUN : \
     && set -ex \
-    && apk add git build-base \
-    && export COMMIT=$(git rev-parse --short HEAD) \
-    && export VERSION=$(go run ./cmd/internal/read_tag) \
     && go install -v \
         -trimpath \
         -tags ${BUILD_TAGS} \
         -o /go/bin/sing-box \
-        -ldflags "-X \"github.com/sagernet/sing-box/constant.Version=$VERSION\" -s -w -buildid=" \
+        -ldflags " -s -w -buildid=" \
         github.com/sagernet/sing-box/cmd/sing-box@dev-next \
     && :
 
