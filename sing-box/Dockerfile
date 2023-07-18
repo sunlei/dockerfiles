@@ -1,22 +1,23 @@
-# syntax=docker/dockerfile:1
 FROM golang:1 as builder
 
-ARG LATEST_VERSION
-
 ENV CGO_ENABLED=0
-ENV BUILD_TAGS=with_acme,with_v2ray_api
+ENV BUILD_TAGS=with_v2ray_api,with_gvisor,with_quic,with_dhcp,with_wireguard,with_utls,with_reality_server,with_clash_api,with_acme
 
 # or: sing-box@latest
-RUN <<EOF
-    set -ex
-    go install \
-        -v \
+RUN : \
+    && set -ex \
+    && apk add git build-base \
+    && export COMMIT=$(git rev-parse --short HEAD) \
+    && export VERSION=$(go run ./cmd/internal/read_tag) \
+    && go install -v \
         -trimpath \
         -tags ${BUILD_TAGS} \
-        -ldflags "-s -w -buildid=" \
-    github.com/sagernet/sing-box/cmd/sing-box@dev-next
-EOF
+        -o /go/bin/sing-box \
+        -ldflags "-X \"github.com/sagernet/sing-box/constant.Version=$VERSION\" -s -w -buildid=" \
+        github.com/sagernet/sing-box/cmd/sing-box@dev-next \
+    && :
 
+# ARG LATEST_VERSION
 # WORKDIR /go/src/github.com/sagernet/sing-box
 # RUN <<EOF
 #     set -ex
