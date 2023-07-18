@@ -9,7 +9,6 @@ RUN : \
     && go install -v \
         -trimpath \
         -tags ${BUILD_TAGS} \
-        -o /go/bin/sing-box \
         -ldflags " -s -w -buildid=" \
         github.com/sagernet/sing-box/cmd/sing-box@dev-next \
     && :
