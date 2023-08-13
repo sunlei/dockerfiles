@@ -3,14 +3,16 @@ FROM golang:1 as builder
 ENV CGO_ENABLED=0
 ENV BUILD_TAGS=with_v2ray_api,with_gvisor,with_quic,with_dhcp,with_wireguard,with_utls,with_reality_server,with_clash_api,with_acme
 
-# or: sing-box@latest
+ARG LATEST_VERSION
+
+# sing-box@latest / sing-box@dev-next / sing-box@${LATEST_VERSION}
 RUN : \
     && set -ex \
     && go install -v \
         -trimpath \
         -tags ${BUILD_TAGS} \
         -ldflags " -s -w -buildid=" \
-        github.com/sagernet/sing-box/cmd/sing-box@dev-next \
+        github.com/sagernet/sing-box/cmd/sing-box@${LATEST_VERSION} \
     && :
 
 # ARG LATEST_VERSION
