@@ -71,7 +71,7 @@ jobs:
             | map(split(".") | map(opt(tonumber)))
             | .[1] |= (. // {});'
 
-          LATEST_VERSION=$(curl -sfL "https://api.github.com/repos/SagerNet/sing-box/releases" | jq "$JQ_SEMVER_CMP"'sort_by(.tag_name|semver_cmp) | last | .tag_name')
+          LATEST_VERSION=$(curl -sfL "https://api.github.com/repos/SagerNet/sing-box/releases" | jq --raw-output "$JQ_SEMVER_CMP"'sort_by(.tag_name|semver_cmp) | last | .tag_name')
 
           echo "LATEST_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
 
