@@ -76,7 +76,7 @@ jobs:
           # LATEST_VERSION=$(curl -sfL "https://api.github.com/repos/SagerNet/sing-box/releases" | jq --raw-output "$JQ_SEMVER_CMP"'sort_by(.tag_name|semver_cmp) | last | .tag_name')
 
           # stable
-          LATEST_VERSION=$(curl -sfL "https://api.github.com/repos/SagerNet/sing-box/releases" | jq --raw-output "$JQ_SEMVER_CMP"'sort_by(.tag_name|semver_cmp) | last | .tag_name')
+          LATEST_VERSION=$(curl -sfL "https://api.github.com/repos/SagerNet/sing-box/releases/latest" | jq --raw-output '.tag_name')
 
           echo "LATEST_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
 
