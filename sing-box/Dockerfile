@@ -1,4 +1,4 @@
-FROM golang:1 as builder
+FROM golang:1 AS builder
 
 ENV CGO_ENABLED=0
 ENV BUILD_TAGS=with_v2ray_api,with_gvisor,with_quic,with_dhcp,with_wireguard,with_utls,with_reality_server,with_clash_api,with_acme
