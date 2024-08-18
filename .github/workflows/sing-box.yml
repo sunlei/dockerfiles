@@ -75,13 +75,18 @@ jobs:
 
           # LATEST_VERSION=$(curl -sfL "https://api.github.com/repos/SagerNet/sing-box/releases" | jq --raw-output "$JQ_SEMVER_CMP"'sort_by(.tag_name|semver_cmp) | last | .tag_name')
 
-          # stable
-          LATEST_VERSION=$(curl -sfL "https://api.github.com/repos/SagerNet/sing-box/releases/latest" | jq --raw-output '.tag_name')
+          # latest stable
+          LATEST_VERSION_STABLE=$(curl -sfL "https://api.github.com/repos/SagerNet/sing-box/releases/latest" | jq --raw-output '.tag_name')
+          # latest release
+          LATEST_VERSION_RELEASE=$(curl -sfL "https://api.github.com/repos/SagerNet/sing-box/releases" | jq --raw-output '.[0].tag_name')
+          # latest tag
+          # curl -sfL "https://api.github.com/repos/SagerNet/sing-box/tags" | jq --raw-output '.[0].name'
 
-          echo "LATEST_VERSION=$LATEST_VERSION" >> $GITHUB_ENV
+          echo "LATEST_VERSION_STABLE=$LATEST_VERSION_STABLE" >> $GITHUB_ENV
+          echo "LATEST_VERSION_RELEASE=$LATEST_VERSION_RELEASE" >> $GITHUB_ENV
 
-      - name: Build and push Docker image | ${{ env.LATEST_VERSION }}
-        uses: docker/build-push-action@v5
+      - name: Build and push docker image | STABLE | ${{ env.LATEST_VERSION_STABLE }}
+        uses: docker/build-push-action@v6
         with:
           context: ./${{ github.job }}
           platforms: linux/amd64,linux/arm64
@@ -89,10 +94,23 @@ jobs:
           cache-to: type=gha,mode=max
           push: true
           build-args: |
-            LATEST_VERSION=${{ env.LATEST_VERSION }}
+            LATEST_VERSION=${{ env.LATEST_VERSION_STABLE }}
           tags: |
-            ${{ env.REGISTRY }}/${{ github.workflow }}:latest
+            ${{ env.REGISTRY }}/${{ github.workflow }}:stable
           # tags: ${{ steps.meta.outputs.tags }}
           # labels: ${{ steps.meta.outputs.labels }}
+
+      - name: Build and push docker image | latest | ${{ env.LATEST_VERSION_RELEASE }}
+        uses: docker/build-push-action@v6
+        with:
+          context: ./${{ github.job }}
+          platforms: linux/amd64,linux/arm64
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          push: true
+          build-args: |
+            LATEST_VERSION=${{ env.LATEST_VERSION_RELEASE }}
+          tags: |
+            ${{ env.REGISTRY }}/${{ github.workflow }}:latest
 
       - run: echo "🍏 This job's status is ${{ job.status }}."
