@@ -94,7 +94,7 @@ jobs:
           cache-to: type=gha,mode=max
           push: true
           build-args: |
-            LATEST_VERSION=${{ env.LATEST_VERSION_STABLE }}
+            VERSION=${{ env.LATEST_VERSION_STABLE }}
           tags: |
             ${{ env.REGISTRY }}/${{ github.workflow }}:stable
           # tags: ${{ steps.meta.outputs.tags }}
@@ -109,7 +109,7 @@ jobs:
           cache-to: type=gha,mode=max
           push: true
           build-args: |
-            LATEST_VERSION=${{ env.LATEST_VERSION_RELEASE }}
+            VERSION=${{ env.LATEST_VERSION_RELEASE }}
           tags: |
             ${{ env.REGISTRY }}/${{ github.workflow }}:latest
 
