@@ -100,7 +100,7 @@ jobs:
           # tags: ${{ steps.meta.outputs.tags }}
           # labels: ${{ steps.meta.outputs.labels }}
 
-      - name: Build and push docker image | latest | ${{ env.LATEST_VERSION_RELEASE }}
+      - name: Build and push docker image | LATEST | ${{ env.LATEST_VERSION_RELEASE }}
         uses: docker/build-push-action@v6
         with:
           context: ./${{ github.job }}
