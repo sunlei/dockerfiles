@@ -25,6 +25,6 @@ LABEL org.opencontainers.image.authors="Sunlei <guizaicn@gmail.com>"
 LABEL org.opencontainers.image.source="https://github.com/sunlei/dockerfiles"
 LABEL org.opencontainers.image.description="Dockerfiles I am using"
 
-COPY --from=downloader /app/snell-server /usr/local/bin/
+COPY --from=downloader /app/snell-server /usr/local/bin/snell-server
 
-ENTRYPOINT ["snell-server"]
+ENTRYPOINT ["/usr/local/bin/snell-server", "-c", "/etc/snell-server.conf"]
