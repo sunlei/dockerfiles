@@ -41,7 +41,7 @@ FROM busybox:1-musl AS busybox
 
 # --------------------------------------------------
 
-FROM gcr.io/distroless/static-debian11:latest
+FROM gcr.io/distroless/static-debian12:latest
 
 LABEL maintainer="Sunlei <guizaicn@gmail.com>"
 LABEL repository="https://github.com/sunlei/dockerfiles"
