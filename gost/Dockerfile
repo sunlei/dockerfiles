@@ -12,7 +12,7 @@ RUN : \
     && apk add -U --no-cache curl unzip \
     && curl -sSL --retry 10 \
         "https://github.com/go-gost/gost/releases/download/v${VERSION}/gost_${VERSION}_${TARGETOS}_${TARGETARCH}.tar.gz" \
-        | sudo tar -C /usr/local/bin --strip-components=1 -xzf - gost \
+        | tar -C /usr/local/bin --strip-components=1 -xzf - gost \
     && ls -alh /usr/local/bin \
     && :
 
