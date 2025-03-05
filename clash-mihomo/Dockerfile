@@ -35,8 +35,7 @@ LABEL org.opencontainers.image.authors="Sunlei <guizaicn@gmail.com>"
 LABEL org.opencontainers.image.source="https://github.com/sunlei/dockerfiles"
 LABEL org.opencontainers.image.description="Dockerfiles I am using"
 
-VOLUME ["/root/.config/mihomo/"]
-
-COPY --from=downloader /mihomo-config/ /root/.config/mihomo/
+COPY --from=downloader /mihomo-config/ /etc/mihomo/
 COPY --from=downloader /usr/local/bin/mihomo /mihomo
-ENTRYPOINT [ "/mihomo" ]
+
+ENTRYPOINT [ "/mihomo", "-d", "/etc/mihomo" ]
