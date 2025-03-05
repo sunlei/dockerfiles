@@ -13,7 +13,6 @@ RUN : \
     && curl -sSL --retry 10 \
         "https://github.com/go-gost/gost/releases/download/v${VERSION}/gost_${VERSION}_${TARGETOS}_${TARGETARCH}.tar.gz" \
         | tar -xz --directory /usr/local/bin --no-same-owner gost \
-    && ls -alh /usr/local/bin \
     && :
 
 
