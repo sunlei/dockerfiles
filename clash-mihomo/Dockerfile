@@ -38,5 +38,5 @@ LABEL org.opencontainers.image.description="Dockerfiles I am using"
 VOLUME ["/root/.config/mihomo/"]
 
 COPY --from=downloader /mihomo-config/ /root/.config/mihomo/
-COPY --from=downloader /mihomo/mihomo /mihomo
+COPY --from=downloader /usr/local/bin/mihomo /mihomo
 ENTRYPOINT [ "/mihomo" ]
