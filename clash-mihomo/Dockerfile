@@ -19,14 +19,14 @@ RUN : \
 
 RUN : \
     && set -ex \
-    && mkdir /mihomo-config \
-    # && wget -O /mihomo-config/geoip.metadb https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.metadb \
-    # && wget -O /mihomo-config/geosite.dat https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat \
-    # && wget -O /mihomo-config/geoip.dat https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat \
-    && wget -O /mihomo-config/geoip.metadb https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/Country.mmdb \
-    && wget -O /mihomo-config/GeoLite2-ASN.mmdb https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/GeoLite2-ASN.mmdb \
-    && wget -O /mihomo-config/geoip.dat https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat \
-    && wget -O /mihomo-config/geosite.dat https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat \
+    && mkdir /etc/mihomo \
+    # && wget -O /etc/mihomo/geoip.metadb https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.metadb \
+    # && wget -O /etc/mihomo/geosite.dat https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat \
+    # && wget -O /etc/mihomo/geoip.dat https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat \
+    && wget -O /etc/mihomo/geoip.metadb https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/Country.mmdb \
+    && wget -O /etc/mihomo/GeoLite2-ASN.mmdb https://cdn.jsdelivr.net/gh/Loyalsoldier/geoip@release/GeoLite2-ASN.mmdb \
+    && wget -O /etc/mihomo/geoip.dat https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geoip.dat \
+    && wget -O /etc/mihomo/geosite.dat https://github.com/Loyalsoldier/v2ray-rules-dat/releases/latest/download/geosite.dat \
     && :
 
 FROM gcr.io/distroless/static-debian12:latest
@@ -39,7 +39,7 @@ LABEL org.opencontainers.image.authors="Sunlei <guizaicn@gmail.com>"
 LABEL org.opencontainers.image.source="https://github.com/sunlei/dockerfiles"
 LABEL org.opencontainers.image.description="Dockerfiles I am using"
 
-COPY --from=downloader /mihomo-config/ /etc/mihomo/
-COPY --from=downloader /usr/local/bin/mihomo /mihomo
+COPY --from=downloader /etc/mihomo/ /etc/mihomo/
+COPY --from=downloader /usr/local/bin/mihomo /usr/local/bin/mihomo
 
-ENTRYPOINT [ "/mihomo", "-d", "/etc/mihomo" ]
+ENTRYPOINT [ "/usr/local/bin/mihomo", "-d", "/etc/mihomo" ]
