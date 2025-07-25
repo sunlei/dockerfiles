@@ -2,8 +2,8 @@ FROM ubuntu:16.04 AS downloader
 
 # NOTE: OpenD 好像只支持 16.04
 
-# ENV OPEND_VERSION=9.3.5308
-# ENV OPEND_FULL_VERSION=Futu_OpenD_${OPEND_VERSION}_Ubuntu16.04
+ENV OPEND_VERSION=9.3.5308
+ENV OPEND_FULL_VERSION=Futu_OpenD_${OPEND_VERSION}_Ubuntu16.04
 
 RUN : \
     && set -ex \
@@ -11,22 +11,17 @@ RUN : \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
         wget \
-        curl \
     && :
 
 RUN : \
     && set -ex \
     && mkdir -p /tmp/opend \
     # && wget --no-check-certificate -O /tmp/opend.tar.gz "https://www.futunn.com/download/fetch-lasted-link?name=opend-ubuntu" \
-    # && wget --no-check-certificate -O /tmp/opend.tar.gz "https://softwaredownload.futunn.com/${OPEND_FULL_VERSION}.tar.gz" \
-    # && tar -zxvf /tmp/opend.tar.gz --directory /tmp/opend --no-same-owner \
-    # && mv /tmp/opend/${OPEND_FULL_VERSION}/${OPEND_FULL_VERSION}/ /usr/local/bin/opend/ \
-    # && rm -rf /tmp/opend \
-    # && rm -rf /tmp/opend.tar.gz \
-    && curl -sSL --retry 10 \
-        "https://www.futunn.com/download/fetch-lasted-link?name=opend-ubuntu" \
-        | tar -xz --directory /tmp/opend --no-same-owner opend \
-    && tree /tmp/opend \
+    && wget --no-check-certificate -O /tmp/opend.tar.gz "https://softwaredownload.futunn.com/${OPEND_FULL_VERSION}.tar.gz" \
+    && tar -zxvf /tmp/opend.tar.gz --directory /tmp/opend --no-same-owner \
+    && mv /tmp/opend/${OPEND_FULL_VERSION}/${OPEND_FULL_VERSION}/ /usr/local/bin/opend/ \
+    && rm -rf /tmp/opend \
+    && rm -rf /tmp/opend.tar.gz \
     && :
 
 RUN : \
