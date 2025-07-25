@@ -17,7 +17,7 @@ RUN : \
     && set -ex \
     && mkdir -p /tmp/opend \
     # && wget --no-check-certificate -O /tmp/opend.tar.gz "https://www.futunn.com/download/fetch-lasted-link?name=opend-ubuntu" \
-    && wget --no-check-certificate -O /tmp/opend.tar.gz "https://softwaredownload.futunn.com/${OPEND_FULL_VERSION}.tar.gz" \
+    && wget -q --no-check-certificate -O /tmp/opend.tar.gz "https://softwaredownload.futunn.com/${OPEND_FULL_VERSION}.tar.gz" \
     && tar -zxvf /tmp/opend.tar.gz --directory /tmp/opend --no-same-owner \
     && mv /tmp/opend/${OPEND_FULL_VERSION}/${OPEND_FULL_VERSION}/ /usr/local/bin/opend/ \
     && rm -rf /tmp/opend \
