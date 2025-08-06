@@ -1,6 +1,11 @@
 name: common-setup
 description: Common environment setup
 
+inputs:
+  GITHUB_TOKEN:
+    description: "GitHub Token for container registry login"
+    required: true
+
 runs:
   using: "composite"
   steps:
@@ -27,7 +32,7 @@ runs:
       with:
         registry: ${{ env.REGISTRY }}
         username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+        password: ${{ inputs.GITHUB_TOKEN }}
 
     # - name: Extract metadata (tags, labels) for Docker
     #   id: meta
