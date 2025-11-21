@@ -15,7 +15,7 @@ RUN : \
     && unzip "${OUTPUT_FILE}" \
     && :
 
-FROM gcr.io/distroless/base-debian12:latest
+FROM gcr.io/distroless/cc-debian12:latest
 
 LABEL maintainer="Sunlei <guizaicn@gmail.com>"
 LABEL repository="https://github.com/sunlei/dockerfiles"
