@@ -51,8 +51,8 @@ jobs:
         with:
           context: ./${{ github.job }}
           platforms: linux/amd64,linux/arm64
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          cache-from: type=gha,scope=caddy
+          cache-to: type=gha,scope=caddy,mode=max
           push: true
           build-args: |
             VERSION=${{ env.LATEST_VERSION_RELEASE }}
