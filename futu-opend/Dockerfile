@@ -1,4 +1,4 @@
-FROM ubuntu:16.04 AS downloader
+FROM ubuntu:26.04 AS downloader
 
 # NOTE: OpenD 好像只支持 16.04
 
@@ -30,7 +30,7 @@ RUN : \
     && :
 
 
-FROM ubuntu:16.04
+FROM ubuntu:26.04
 
 COPY --from=downloader /usr/local/bin/opend/ /usr/local/bin/opend/
 
