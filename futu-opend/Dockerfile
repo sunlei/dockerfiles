@@ -1,9 +1,9 @@
-FROM ubuntu:16.04 AS downloader
+FROM ubuntu:18.04 AS downloader
 
-# NOTE: OpenD 好像只支持 16.04
+# NOTE: OpenD 好像只支持 18.04
 
-ENV OPEND_VERSION=9.4.5418
-ENV OPEND_FULL_VERSION=Futu_OpenD_${OPEND_VERSION}_Ubuntu16.04
+ENV OPEND_VERSION=10.9.6918
+ENV OPEND_FULL_VERSION=Futu_OpenD_${OPEND_VERSION}_Ubuntu18.04
 
 RUN : \
     && set -ex \
@@ -30,7 +30,7 @@ RUN : \
     && :
 
 
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 COPY --from=downloader /usr/local/bin/opend/ /usr/local/bin/opend/
 
